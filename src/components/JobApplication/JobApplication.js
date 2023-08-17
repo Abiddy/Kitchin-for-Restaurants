@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
-import { db } from "/Users/nouman.abidi/Desktop/Kitchin-App/src/firebase.js";
+import { db } from "../../firebase";
 import ApplicationCard from "./JobApplicationCard";
 import Navbar from "../Navbar";
 import React from "react";

@@ -3,7 +3,7 @@ import { useState } from "react";
 import {
   db,
   auth,
-} from "/Users/nouman.abidi/Desktop/Kitchin-App/src/firebase.js";
+} from "../../firebase";
 import { collection, addDoc, Timestamp, doc } from "firebase/firestore";
 import Modal from "@mui/material/Modal";
 import { Button, Box, Input } from "@mui/material";
