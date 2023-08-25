@@ -1,70 +1,44 @@
-import React from "react";
-import { Box, Container } from "@mui/system";
-import { Button } from "@mui/material";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import Register from "./Register";
 import "./LandingPage.css";
-import CssBaseline from "@mui/material/CssBaseline";
-import Grid from "@mui/material/Grid";
+import { Button, Space } from 'antd';
 
 const Landing = () => {
-  const [open, setOpen] = useState(false);
+  const firstPhrase = "Kitchin. Empowering the Food Industry";
+  const typingSpeed = 50; // Adjust the typing speed (in milliseconds)
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const [type, setType] = useState("");
+  const [charIndex, setCharIndex] = useState(0);
+  const [typedText, setTypedText] = useState('');
+  const [showButtons, setShowButtons] = useState(false);
 
-  const userType = (id) => {
-    setOpen(true);
-    setType(id);
-  };
+  useEffect(() => {
+    const typeInterval = setInterval(() => {
+      if (charIndex < firstPhrase.length) {
+        setTypedText((prevText) => prevText + firstPhrase[charIndex]);
+        setCharIndex((prevIndex) => prevIndex + 1);
+      } else {
+        clearInterval(typeInterval); // Stop the interval when the phrase is typed out
+        setShowButtons(true);
+      }
+    }, typingSpeed);
+
+    return () => {
+      clearInterval(typeInterval);
+    };
+  }, [charIndex]);
 
   return (
-    <Grid container component="main" sx={{ height: "100vh" }}>
-      <CssBaseline />
-      <Grid
-        item
-        xs={false}
-        sm={4}
-        md={7}
-        sx={{
-          backgroundImage:
-            "url(https://images.unsplash.com/photo-1551218808-94e220e084d2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80)",
-          backgroundRepeat: "no-repeat",
-          backgroundColor: (t) =>
-            t.palette.mode === "light"
-              ? t.palette.grey[50]
-              : t.palette.grey[900],
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
-      <div className="bg-container">
-        <Container component="main" maxWidth="xs">
-          <Box
-            sx={{
-              marginTop: 50,
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <h1>Welcome to the Kitchin!</h1>
-
-            <Box component="div" sx={{ display: "inline" }}>
-              <Button onClick={() => userType("user")}>
-                I'm Looking for a Job in the Restaurant Industry
-              </Button>
-              <Button onClick={() => userType("restaurant")}>
-                I'm Looking to Hire Staff for my Restaurant
-              </Button>
-            </Box>
-          </Box>
-        </Container>
-
-        {open && <Register onClose={handleClose} open={open} type={type} />}
+    <div className="landing-page">
+      <div className="logo">
+        <img src="/image/light.png" alt="Kitchin" />
       </div>
-    </Grid>
+      <div className="typing-animation">{typedText}</div>
+      {showButtons &&
+      <Space wrap>
+      <Button type="primary">Learn More</Button>
+      <Button>Join our Comminuty</Button> 
+    </Space>}
+    </div>
   );
 };
 
